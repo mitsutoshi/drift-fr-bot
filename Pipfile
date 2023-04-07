@@ -4,10 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-driftpy = "*"
-jedi-language-server = "*"
+driftpy = "0.6.30"
 
 [dev-packages]
+jedi-language-server = "*"
 
 [requires]
 python_version = "3.10"
+
+[scripts]
+main = "python main.py"
