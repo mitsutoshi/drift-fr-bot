@@ -1,0 +1,4 @@
+MARKET_SOLPERP: int = 0
+MARKET_USDC_SPOT: int = 0
+MARKET_SOL_SPOT: int = 1
+
