@@ -68,13 +68,6 @@ async def main(subaccount, env: str = 'devnet'):
         # get oracle data
 
         o_data = perp_market.amm.historical_oracle_data
-        # HistoricalOracleData(
-        #     last_oracle_price=20808450,
-        #     last_oracle_conf=0, 
-        #     last_oracle_delay=2,
-        #     last_oracle_price_twap=20841217,
-        #     last_oracle_price_twap5min=20765549
-        #     last_oracle_price_twap_ts=1680708997)
         logger.info(f"Oracle data: market=SOL-PERP, price={(o_data.last_oracle_price / PRICE_PRECISION):.4f}, price={(o_data.last_oracle_price_twap/ PRICE_PRECISION):.4f}")
 
         # calculate next funding rate prediction
@@ -97,11 +90,11 @@ async def main(subaccount, env: str = 'devnet'):
         # get perp positions
         sol_positions = [p for p in user.perp_positions if p.market_index == MARKET_SOLPERP and not is_available(p)]
         for p in sol_positions:
-            logger.info(f'Position: {p}')
+            logger.debug(f'Position: {p}')
+
         long_position = [p for p in sol_positions if p.base_asset_amount > 0]
         short_position = [p for p in sol_positions if p.base_asset_amount < 0]
 
-        #
         # check current FR
         #
 
@@ -146,22 +139,19 @@ SHORT: {short_position[0].base_asset_amount / BASE_PRECISION if short_position e
                 # close SHORT position to avoid paying funding rate.
                 await close_perp_positions(short_position[0])
 
-            # TODO If SHORT pays funding rate to LONG
+            # TODO If SHORT pays funding rate to LON
             if fr > borrow_rate:
+                # borrow SOL
+                # deposit SOL
+                # sell Spot SOL
+                # create LONG position of SOL-PERP
                 pass
-            #    if long_position:
-            #        print(f"You already have LONG position.")
-            #        for p in long_position:
-            #            print('  ', p)
-            #    # 1. borrow SOL
-            #    # 2. deposit SOL
-            #    # 3. sell Spot SOL
-            #    # 4. create LONG position of SOL-PERP
+
             else:
 
                 # If borrow rate is higher than funding rate, you shouldn't have any positions.
                 if long_position:
-                    close_perp_positions(long_position)
+                    close_perp_position(long_position[0])
 
         # sleep 10 min
         time.sleep(60 * 10)

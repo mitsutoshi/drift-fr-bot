@@ -165,7 +165,7 @@ price_offset={params.oracle_price_offset}, post_only={params.post_only}, signatu
         logger.info('SOL balance is not enough to create position.')
 
 
-async def close_perp_positions(ch: ClearingHouse, chu: ClearingHouseUser, position: PerpPosition) -> None:
+async def close_perp_position(ch: ClearingHouse, chu: ClearingHouseUser, position: PerpPosition) -> None:
     '''Close perpetual positions.
     '''
 
