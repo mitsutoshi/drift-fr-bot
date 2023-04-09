@@ -1,5 +1,3 @@
-# drift-bot
+# drift-fr-bot
 
-drift-bot is a trading bot for Drift Protocol v2 on Solana.
-
-This bot is designed to earn the funding rate.
+drift-fr-bot is a bot for earning funding rates in Drift Protocol v2 on Solana blockchain.
