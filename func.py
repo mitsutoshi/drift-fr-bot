@@ -20,14 +20,14 @@ def calc_funding_rate(mark_price_twap, oracle_price_twap) -> float:
 async def swap_usdc_to_sol(chu, ch):
     logger.info(f"Start to swap USDC to SOL.")
 
-    # Get USDC balance
+    # Get Spot USDC balance
     usdc_position = await chu.get_user_spot_position(MARKET_USDC_SPOT)
     usdc_balance = usdc_position.scaled_balance / SPOT_BALANCE_PRECISION
 
-    # Get SOL balance
-    sol_position = await chu.get_user_spot_position(MARKET_SOL_SPOT)
-    sol_balance = sol_position.scaled_balance / SPOT_BALANCE_PRECISION
-    logger.info(f"Balance: {usdc_balance} USDC, {sol_balance} SOL")
+    # Get Spot SOL balance
+    sol_pos = await chu.get_user_spot_position(MARKET_SOL_SPOT)
+    sol_balance = sol_pos.scaled_balance / SPOT_BALANCE_PRECISION if sol_pos else 0.0
+    logger.info(f"Spot balance: {usdc_balance} USDC, {sol_balance} SOL")
 
     # if you have USDC enough, buy SOL.
     if usdc_position.scaled_balance > 0 and SpotBalanceType.DEPOSIT():
